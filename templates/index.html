@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini PKI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #0d0d0d;
+      font-family: 'Orbitron', monospace;
+      color: #00e0d0;
+      padding: 40px 20px;
+    }
+
+    .glass {
+      background: rgba(0, 224, 208, 0.04);
+      border: 1px solid #00e0d044;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 0 8px #00e0d033;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .glass:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 12px #00e0d055;
+    }
+
+    .title-glow {
+      font-size: 2.6rem;
+      text-align: center;
+      color: #00e0d0;
+      text-shadow: 0 0 5px #00e0d099;
+      margin-bottom: 40px;
+    }
+
+    .btn-glow {
+      background-color: #0d0d0d;
+      color: #00e0d0;
+      border: 1px solid #00e0d0;
+      box-shadow: 0 0 5px #00e0d055;
+      transition: 0.3s ease;
+    }
+
+    .btn-glow:hover {
+      background-color: #121212;
+      box-shadow: 0 0 10px #00e0d099;
+    }
+
+    .neon-divider {
+      height: 2px;
+      background: linear-gradient(to right, #00e0d0, #009f95, #00e0d0);
+      margin: 40px 0;
+    }
+
+    .alert.glass {
+      border: 1px solid #00e0d044;
+      background-color: rgba(0, 224, 208, 0.03);
+      color: #00e0d0;
+      font-family: monospace;
+      animation: fadeInLog 0.8s ease;
+      border-radius: 10px;
+    }
+
+    .alert .btn-close {
+      filter: brightness(0) invert(1);
+    }
+
+    .form-control {
+      background-color: #0d0d0d;
+      border: 1px solid #00e0d033;
+      color: #00e0d0;
+    }
+
+    .form-control:focus {
+      background-color: #0d0d0d;
+      border-color: #00e0d0;
+      box-shadow: 0 0 6px #00e0d066;
+    }
+
+    @keyframes fadeInLog {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h1 class="title-glow">🔐 Welcome to Mini PKI System</h1>
+    <div class="neon-divider"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show glass" role="alert">
+            [{{ category|upper }}] → {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="glass">
+          <h5 class="text-center">🛠️ Generate CSR</h5>
+          <p class="text-center">Create Certificate Signing Request & Private Key</p>
+          <a href="{{ url_for('register') }}" class="btn btn-glow w-100">Generate</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <form action="{{ url_for('sign') }}" method="post">
+          <div class="glass">
+            <h5 class="text-center">🔏 Sign CSR</h5>
+            <div class="mb-3">
+              <input type="text" name="name" class="form-control" placeholder="Enter user name" required />
+              <input type="password" name="pfx_password" class="form-control mt-2" placeholder="PFX password" required />
+            </div>
+            <button type="submit" class="btn btn-glow w-100">Sign Certificate</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-4">
+        <form action="{{ url_for('revoke') }}" method="post">
+          <div class="glass">
+            <h5 class="text-center">⚠️ Revoke Certificate</h5>
+            <div class="mb-3">
+              <input type="text" name="name" class="form-control" placeholder="Enter user name" required />
+            </div>
+            <button type="submit" class="btn btn-glow w-100">Revoke</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{{ url_for('validate') }}" class="btn btn-glow">✅ Validate Certificate</a>
+    </div>
+
+    <div class="neon-divider"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
