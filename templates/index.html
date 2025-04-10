@@ -80,6 +80,12 @@
       box-shadow: 0 0 6px #00e0d066;
     }
 
+    .action-title {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
     @keyframes fadeInLog {
       from {
         opacity: 0;
@@ -111,18 +117,18 @@
     <div class="row g-4">
       <div class="col-md-4">
         <div class="glass">
-          <h5 class="text-center">🛠️ Generate CSR</h5>
-          <p class="text-center">Create Certificate Signing Request & Private Key</p>
+          <h5 class="action-title">🛠️ Generate CSR</h5>
+          <p class="text-center">Create a Certificate Signing Request & Private Key</p>
           <a href="{{ url_for('register') }}" class="btn btn-glow w-100">Generate</a>
         </div>
       </div>
       <div class="col-md-4">
         <form action="{{ url_for('sign') }}" method="post">
           <div class="glass">
-            <h5 class="text-center">🔏 Sign CSR</h5>
+            <h5 class="action-title">🔏 Sign CSR</h5>
             <div class="mb-3">
-              <input type="text" name="name" class="form-control" placeholder="Enter user name" required />
-              <input type="password" name="pfx_password" class="form-control mt-2" placeholder="PFX password" required />
+              <input type="text" name="name" class="form-control mb-2" placeholder="Enter username" required />
+              <input type="password" name="pfx_password" class="form-control" placeholder="PFX password" required />
             </div>
             <button type="submit" class="btn btn-glow w-100">Sign Certificate</button>
           </div>
@@ -131,9 +137,9 @@
       <div class="col-md-4">
         <form action="{{ url_for('revoke') }}" method="post">
           <div class="glass">
-            <h5 class="text-center">⚠️ Revoke Certificate</h5>
+            <h5 class="action-title">⚠️ Revoke Certificate</h5>
             <div class="mb-3">
-              <input type="text" name="name" class="form-control" placeholder="Enter user name" required />
+              <input type="text" name="name" class="form-control" placeholder="Enter username" required />
             </div>
             <button type="submit" class="btn btn-glow w-100">Revoke</button>
           </div>
@@ -141,12 +147,34 @@
       </div>
     </div>
 
-    <div class="text-center mt-5">
-      <a href="{{ url_for('validate') }}" class="btn btn-glow">✅ Validate Certificate</a>
+    <div class="row g-4 mt-4">
+      <div class="col-md-6 text-center">
+        <a href="{{ url_for('validate') }}" class="btn btn-glow w-75">✅ Validate Certificate</a>
+      </div>
+      <div class="col-md-6 text-center">
+        <a href="{{ url_for('cyberchat') }}" class="btn btn-glow w-75">💬 Ask Cybersecurity AI</a>
+      </div>
     </div>
 
-    <div class="text-center mt-4">
-      <a href="{{ url_for('cyberchat') }}" class="btn btn-glow">💬 Ask Cybersecurity AI</a>
+    <div class="neon-divider"></div>
+
+    <!-- Admin buttons shown only if logged in -->
+    <div class="row g-4 mt-4">
+      {% if session.admin %}
+        <div class="col-md-4 text-center">
+          <a href="{{ url_for('admin_dashboard') }}" class="btn btn-glow w-100">🛡️ Admin Dashboard</a>
+        </div>
+        <div class="col-md-4 text-center">
+          <a href="{{ url_for('admin_keys') }}" class="btn btn-glow w-100">🗝️ Key Management</a>
+        </div>
+        <div class="col-md-4 text-center">
+          <a href="{{ url_for('admin_logout') }}" class="btn btn-glow w-100">🚪 Logout</a>
+        </div>
+      {% else %}
+        <div class="col-md-4 offset-md-4 text-center">
+          <a href="{{ url_for('admin_login') }}" class="btn btn-glow w-100">🔐 Admin Login</a>
+        </div>
+      {% endif %}
     </div>
 
     <div class="neon-divider"></div>

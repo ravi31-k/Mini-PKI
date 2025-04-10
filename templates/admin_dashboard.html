@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Mini PKI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #e0f7fa;
+      font-family: 'Courier New', monospace;
+    }
+    .glass {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00e0d055;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px #00e0d033;
+    }
+    .btn-revoke {
+      background-color: #e53935;
+      color: white;
+    }
+    .btn-download {
+      background-color: #00acc1;
+      color: white;
+    }
+    .status-valid {
+      color: #4caf50;
+    }
+    .status-revoked {
+      color: #f44336;
+    }
+    .btn-outline-info {
+      transition: all 0.3s ease-in-out;
+    }
+    .btn-outline-info:hover {
+      background-color: #00e0d0;
+      color: #1e1e2f;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">🔐 Admin Dashboard</h2>
+    <div class="glass">
+
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Certificate</th>
+            <th>Status</th>
+            <th>Download</th>
+            <th>Revoke</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cert in cert_data %}
+          <tr>
+            <td>{{ cert.username }}</td>
+            <td>{{ cert.cert_file or "No Certificate" }}</td>
+            <td class="{% if cert.status == 'Valid' %}status-valid{% elif cert.status == 'Revoked' %}status-revoked{% endif %}">{{ cert.status }}</td>
+            <td>
+              {% if cert.cert_file %}
+                <a href="{{ url_for('download_page', username=cert.username) }}" class="btn btn-sm btn-download">Download</a>
+              {% else %}
+                <span class="text-muted">N/A</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if cert.status == 'Valid' %}
+              <a href="{{ url_for('admin_revoke', username=cert.username) }}" class="btn btn-sm btn-revoke" onclick="return confirm('Revoke certificate for {{ cert.username }}?')">Revoke</a>
+              {% else %}
+              <button class="btn btn-sm btn-secondary" disabled>Revoked</button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Back to Home button -->
+    <div class="text-center mt-4">
+      <a href="{{ url_for('home') }}" class="btn btn-outline-info btn-lg px-4 py-2" style="border-radius: 30px; font-weight: bold;">
+        ⬅️ Back to Home
+      </a>
+    </div>
+  </div>
+</body>
+</html>

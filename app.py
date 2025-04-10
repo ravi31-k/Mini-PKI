@@ -1,12 +1,22 @@
-from flask import Flask, render_template, request, send_file, flash, redirect, url_for
+from flask import Flask, render_template, request, send_file, flash, redirect, url_for, session
 import os
 import subprocess
-from sign_csr import sign_csr 
+from functools import wraps
+from sign_csr import sign_csr
 from orchatbot import ask_ai
-
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
+
+# --- Admin Access Decorator ---
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("admin"):
+            flash("Admin access required.", "danger")
+            return redirect(url_for("admin_login"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route("/")
 def home():
@@ -100,13 +110,90 @@ def cyberchat():
             response = ask_ai(question)
         except Exception as e:
             flash(f"Error getting response: {e}", "danger")
-
     return render_template("cyberchat.html", response=response)
 
+# --- Admin Routes ---
 
-# if __name__ == "__main__":
-#     app.run(debug=True) 
-# when PUSHED to Redar, uncomment the following lines
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if username == "admin" and password == "admin123":
+            session["admin"] = True
+            flash("Admin login successful.", "success")
+            return redirect(url_for("admin_dashboard"))
+        else:
+            flash("Invalid credentials.", "danger")
+    return render_template("admin_login.html")
+
+@app.route("/admin/logout")
+@admin_required
+def admin_logout():
+    session.pop("admin", None)
+    flash("Logged out successfully.", "info")
+    return redirect(url_for("home"))
+
+@app.route("/admin/dashboard")
+@admin_required
+def admin_dashboard():
+    cert_data = []
+    base_path = "users"
+    if os.path.exists(base_path):
+        for user in os.listdir(base_path):
+            user_path = os.path.join(base_path, user)
+            files = os.listdir(user_path)
+            cert_file = next((f for f in files if f.endswith(".pem")), None)
+            if cert_file:
+                status = "Revoked" if "revoked" in cert_file.lower() else "Valid"
+                cert_data.append({
+                    "username": user,
+                    "cert_file": cert_file,
+                    "status": status
+                })
+    return render_template("admin_dashboard.html", cert_data=cert_data)
+
+@app.route("/admin/revoke/<username>")
+@admin_required
+def admin_revoke(username):
+    os.system(f'python revoke_cert.py "{username}"')
+    flash(f"Certificate revoked for {username}.", "warning")
+    return redirect(url_for("admin_dashboard"))
+
+@app.route("/admin/keys")
+@admin_required
+def admin_keys():
+    key_data = []
+    base_path = "users"
+    if os.path.exists(base_path):
+        for user in os.listdir(base_path):
+            user_path = os.path.join(base_path, user)
+            keys = [f for f in os.listdir(user_path) if f.endswith(".key")]
+            for key in keys:
+                key_data.append({"username": user, "key_name": key})
+
+    return render_template("admin_keys.html", key_data=key_data)
+
+@app.route("/admin/keys/download/<username>/<key_name>")
+@admin_required
+def download_key(username, key_name):
+    path = os.path.join("users", username, key_name)
+    if os.path.exists(path):
+        return send_file(path, as_attachment=True)
+    else:
+        flash("Key file not found.", "danger")
+        return redirect(url_for("admin_keys"))
+
+@app.route("/admin/keys/delete/<username>/<key_name>")
+@admin_required
+def delete_key(username, key_name):
+    path = os.path.join("users", username, key_name)
+    if os.path.exists(path):
+        os.remove(path)
+        flash(f"Key {key_name} deleted for user {username}.", "warning")
+    else:
+        flash("Key file not found.", "danger")
+    return redirect(url_for("admin_keys"))
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True)
