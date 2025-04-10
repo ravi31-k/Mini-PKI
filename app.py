@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, send_file, flash, redirect, url_for
 import os
 import subprocess
-from sign_csr import sign_csr  
+from sign_csr import sign_csr 
+from orchatbot import ask_ai
+
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -88,6 +90,19 @@ def revoke():
     os.system(f'python revoke_cert.py "{name}"')
     flash(f"Certificate revoked for {name}.", "danger")
     return redirect(url_for("home"))
+
+@app.route("/cyberchat", methods=["GET", "POST"])
+def cyberchat():
+    response = None
+    if request.method == "POST":
+        question = request.form["question"]
+        try:
+            response = ask_ai(question)
+        except Exception as e:
+            flash(f"Error getting response: {e}", "danger")
+
+    return render_template("cyberchat.html", response=response)
+
 
 # if __name__ == "__main__":
 #     app.run(debug=True) 
