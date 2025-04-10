@@ -1,0 +1,5 @@
+Flask==2.3.3
+python-dotenv==1.0.1
+cryptography==42.0.5
+requests==2.31.0
+pyOpenSSL==24.0.0
