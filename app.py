@@ -165,14 +165,28 @@ def admin_revoke(username):
 def admin_keys():
     key_data = []
     base_path = "users"
+
     if os.path.exists(base_path):
         for user in os.listdir(base_path):
             user_path = os.path.join(base_path, user)
-            keys = [f for f in os.listdir(user_path) if f.endswith(".key")]
-            for key in keys:
-                key_data.append({"username": user, "key_name": key})
+            if os.path.isdir(user_path):
+                for file in os.listdir(user_path):
+                    if file.endswith(".key") or "private" in file.lower():
+                        key_data.append({"username": user, "key_name": file})
 
     return render_template("admin_keys.html", key_data=key_data)
+
+@app.route("/admin/keys/view/<username>/<key_name>")
+@admin_required
+def view_key(username, key_name):
+    path = os.path.join("users", username, key_name)
+    if os.path.exists(path):
+        with open(path, "r") as f:
+            content = f.read()
+        return render_template("view_key.html", username=username, key_name=key_name, content=content)
+    else:
+        flash("Key file not found.", "danger")
+        return redirect(url_for("admin_keys"))
 
 @app.route("/admin/keys/download/<username>/<key_name>")
 @admin_required
