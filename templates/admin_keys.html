@@ -32,18 +32,6 @@
       background-color: #43a047;
       color: white;
     }
-    .key-preview {
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-size: 0.85rem;
-      max-height: 300px;
-      overflow-y: auto;
-      background: #0d0d0d;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #00e0d033;
-      margin-top: 10px;
-    }
   </style>
 </head>
 <body>
@@ -75,12 +63,7 @@
       </tbody>
     </table>
 
-    {% if key_preview %}
-    <div class="mt-4">
-      <h5>🔍 Key Preview ({{ preview_username }})</h5>
-      <div class="key-preview">{{ key_preview }}</div>
-    </div>
-    {% endif %}
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-info mt-3">← Back to Dashboard</a>
 
   </div>
 </div>
