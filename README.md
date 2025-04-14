@@ -152,7 +152,7 @@ This section outlines the steps to set up the Mini PKI system on your local mach
 
 Start by cloning the repository to your local machine:
 
-git clone https://github.com/yourusername/mini-pki.git
+git clone [https://github.com/yourusername/mini-pki.git](https://github.com/ravi31-k/Mini-PKI.git)
 cd mini-pki
 
 ### Install Dependencies
