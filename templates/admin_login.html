@@ -70,6 +70,25 @@
       color: #4dd0e1;
       text-shadow: 0 0 5px #00e0d0;
     }
+
+    /* Tooltip styles */
+    .form-label {
+      position: relative;
+    }
+
+    .form-label:hover::after {
+      content: attr(data-hint);
+      position: absolute;
+      top: -20px;
+      left: 0;
+      background-color: #333;
+      color: white;
+      padding: 5px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      opacity: 0.8;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -79,12 +98,12 @@
 
     <form method="POST">
       <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
+        <label for="username" class="form-label" data-hint="admin">Username</label>
         <input type="text" name="username" id="username" class="form-control" required>
       </div>
 
       <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label" data-hint="admin123">Password</label>
         <input type="password" name="password" id="password" class="form-control" required>
       </div>
 
