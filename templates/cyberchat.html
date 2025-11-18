@@ -3,140 +3,146 @@
 <head>
   <meta charset="UTF-8">
   <title>Cybersecurity Chatbot</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+
   <style>
     body {
-      background-color: #0d0d0d;
-      color: #7dcddb;
+      background: linear-gradient(135deg, #1a0f2e, #250a1f, #301020);
+      color: #ffd8c8;
       font-family: 'Orbitron', monospace;
       padding: 40px 20px;
+      min-height: 100vh;
     }
-/* fe erie */
+
+    /* GLASS CARD (Sunset Cyber) */
     .glass {
-      background: rgba(0, 224, 208, 0.04);
-      border: 1px solid #00e0d044;
-      border-radius: 14px;
+      background: rgba(255, 150, 100, 0.05);
+      border: 1px solid rgba(255, 120, 70, 0.4);
+      border-radius: 16px;
       padding: 25px;
-      box-shadow: 0 0 8px #00e0d033;
-      transition: 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 80, 40, 0.35), inset 0 0 10px rgba(255, 100, 60, 0.2);
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
     }
 
     .glass:hover {
-      box-shadow: 0 0 12px #00e0d055;
+      box-shadow: 0 0 20px rgba(255, 80, 40, 0.55), inset 0 0 12px rgba(255, 120, 70, 0.25);
     }
 
+    /* Title */
     .title-glow {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       text-align: center;
-      text-shadow: 0 0 5px #00e0d099;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      color: #ffb77a;
+      text-shadow: 0 0 8px #ff7b38, 0 0 15px #ff4bd1;
     }
 
+    /* Buttons */
     .btn-glow {
-      background-color: #0d0d0d;
-      color: #00e0d0;
-      border: 1px solid #00e0d0;
-      box-shadow: 0 0 5px #00e0d055;
-      transition: 0.3s ease;
+      background: #1c0f19;
+      border: 1px solid #ff905a;
+      color: #ffb38c;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-shadow: 0 0 6px #ff7b38;
+      box-shadow: 0 0 10px rgba(255, 120, 70, 0.4);
+      transition: 0.3s;
     }
 
     .btn-glow:hover {
-      background-color: #121212;
-      box-shadow: 0 0 10px #00e0d099;
+      background: #2b1623;
+      box-shadow: 0 0 18px rgba(255, 120, 70, 0.7);
+      border-color: #ffb77a;
+      color: #ffd8c8;
     }
 
+    /* Input field */
     .form-control {
-      /* background-color: rgba(0, 224, 208, 0.05); */
-      background-color: rgba(0, 224, 208, 0.4);
-      border: 1px solid #00e0d0;
-      color: #9bd8d5;
-      font-family: monospace;
-      font-size: 1.1rem;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 0 6px #00e0d033 inset;
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      background-color: rgba(255, 150, 100, 0.08);
+      border: 1px solid #ff905a;
+      color: #ffe7df;
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(255, 80, 40, 0.2) inset;
+      transition: 0.3s ease;
     }
 
     .form-control:focus {
-      background-color: rgba(0, 224, 208, 0.4);
-      border-color: #00fff2;
-      box-shadow: 0 0 12px #00fff277, 0 0 6px #00e0d055 inset;
+      background-color: rgba(255, 140, 80, 0.15);
+      border-color: #ffb34d;
+      box-shadow: 0 0 15px rgba(255, 140, 80, 0.6), inset 0 0 10px rgba(255, 120, 70, 0.3);
     }
 
-    .text-glow {
-      font-size: 1.5rem;
-      color: #00ffe0;
-      text-shadow: 0 0 5px #00ffe0aa, 0 0 10px #00ffe077;
-    }
-
-    .response-box {
-      background: rgba(0, 224, 208, 0.06);
-      backdrop-filter: blur(4px);
-      border: 1px solid #00e0d044;
+    /* Response box */
+    .ai-response {
+      background: rgba(255, 150, 120, 0.07);
+      border: 1px solid rgba(255, 100, 60, 0.35);
       border-radius: 16px;
       padding: 20px;
-      color: #e0ffff;
-      font-family: 'Courier New', monospace;
-      white-space: pre-wrap;
-      line-height: 1.6;
-      font-size: 1rem;
-      max-height: 400px;
-      overflow-y: auto;
-      box-shadow: 0 0 10px #00e0d044;
+      color: #ffeadd;
+      box-shadow: 0 0 12px rgba(255, 120, 60, 0.45);
       animation: fadeIn 0.6s ease-in-out;
-      transition: all 0.3s ease-in-out;
     }
 
-    .question-box {
-      border: 1px solid #00e0d0;
-      padding: 25px;
-      border-radius: 14px;
-      background: rgba(0, 224, 208, 0.02);
-      box-shadow: 0 0 10px #00e0d033;
-      margin-bottom: 30px;
-    }
-
+    /* Fade animation */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Sunset neon divider */
     .neon-divider {
       height: 2px;
-      background: linear-gradient(to right, #00e0d0, #009f95, #00e0d0);
-      margin: 40px 0;
+      margin: 30px 0;
+      background: linear-gradient(to right,
+        #ff4bd1,
+        #ff905a,
+        #ffb34d,
+        #ff7b38,
+        #ff4bd1
+      );
+      box-shadow: 0 0 10px #ff7b38;
     }
   </style>
 </head>
+
 <body>
+
   <div class="container">
     <h2 class="title-glow">💬 Cybersecurity AI Chat</h2>
     <div class="neon-divider"></div>
 
     <form method="POST" class="glass">
-      <div class="question-box">
-        <label for="question" class="form-label">Ask your question:</label>
-        <textarea id="question" name="question" class="form-control" rows="4" placeholder="e.g. What is a man-in-the-middle attack?" required>{{ request.form.question }}</textarea>
-      </div>
-      <div class="text-end">
-        <button type="submit" class="btn btn-glow">Ask AI</button>
+      <label class="form-label">Ask your question:</label>
+
+      <textarea
+        id="question"
+        name="question"
+        class="form-control"
+        rows="4"
+        placeholder="e.g. How do SQL injection attacks work?"
+        required>{{ request.form.question }}</textarea>
+
+      <div class="text-end mt-3">
+        <button type="submit" class="btn btn-glow">Ask AI ⚡</button>
       </div>
     </form>
 
     {% if response %}
-    <div class="glass ai-response">
-      <h5>🧠 AI Response:</h5>
+    <div class="glass ai-response mt-4">
+      <h5 style="color:#ffb77a; text-shadow:0 0 6px #ff7b38;">🧠 AI Response:</h5>
       <p>{{ response }}</p>
     </div>
     {% endif %}
 
     <div class="text-center mt-5">
-      <a href="{{ url_for('home') }}" class="btn btn-glow">⬅️ Back to Home</a>
+      <a href="{{ url_for('home') }}" class="btn btn-glow">⬅ Back to Home</a>
     </div>
+
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
