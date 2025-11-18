@@ -1,61 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>🔐 View Key - {{ key_name }}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
   <style>
     body {
-      background-color: #101624;
-      color: #e0f7fa;
-      font-family: 'Courier New', monospace;
+      background: linear-gradient(140deg, #0d0b1a, #2a0f2f);
+      color: #ff2d95;
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding-top: 60px;
     }
-    .container {
-      margin-top: 50px;
-    }
+
     .glass {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid #00e0d044;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 10px #00e0d044;
+      width: 800px;
+      background: rgba(20, 10, 25, 0.5);
+      border: 1px solid #ff2d9555;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 25px #ff2d9555;
+      backdrop-filter: blur(6px);
     }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      text-shadow: 0 0 15px #ff2d95;
+    }
+
     .key-box {
-      background-color: #0d0d0d;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #00e0d033;
-      white-space: pre-wrap;
-      word-break: break-word;
-      max-height: 600px;
+      background: #140814;
+      border: 1px solid #a259ff55;
+      box-shadow: inset 0 0 12px #a259ff22;
+      padding: 18px;
+      border-radius: 12px;
+      color: #ffb3d1;
+      height: 500px;
       overflow-y: auto;
+      white-space: pre-wrap;
       font-size: 0.9rem;
     }
+
     .btn-back {
-      background-color: transparent;
-      border: 1px solid #00e0d0;
-      color: #00e0d0;
+      border: 1px solid #ff2d95;
+      padding: 8px 20px;
+      color: #ff2d95;
+      background: transparent;
+      border-radius: 12px;
+      margin-top: 20px;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #ff2d9555;
     }
+
     .btn-back:hover {
-      background-color: #00e0d0;
-      color: #101624;
+      background: #ff2d95;
+      color: #140814;
+      box-shadow: 0 0 18px #ff2d95;
+    }
+
+    .text-info {
+      color: #ff914d !important;
+      text-shadow: 0 0 5px #ff914d99;
     }
   </style>
 </head>
-<body>
 
-<div class="container">
-  <h2 class="text-center mb-4">🔍 Viewing Key: {{ key_name }}</h2>
+<body>
   <div class="glass">
+    <h2>🔍 Viewing Key: {{ key_name }}</h2>
+
     <h5>User: <span class="text-info">{{ username }}</span></h5>
+
     <div class="key-box mt-3">
       {{ content }}
     </div>
-    <div class="mt-4 text-end">
-      <a href="{{ url_for('admin_keys') }}" class="btn btn-back">← Back to Key Management</a>
+
+    <div class="text-end">
+      <a href="{{ url_for('admin_keys') }}" class="btn-back">⬅ Back to Key Management</a>
     </div>
   </div>
-</div>
-
 </body>
 </html>
