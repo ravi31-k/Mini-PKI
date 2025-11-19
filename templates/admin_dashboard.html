@@ -7,101 +7,89 @@
 
   <style>
     body {
-      background-color: #02040a;
-      font-family: 'Share Tech Mono', monospace;
-      color: #ff00cc;
-      padding: 40px 0;
+      background-color: #0d0c1d; /* Dark cyber background */
+      color: #ffb7ef; /* Soft neon pink text */
+      font-family: 'Courier New', monospace;
     }
 
     .glass {
-      background-color: rgba(255, 0, 180, 0.05);
-      border: 1px solid #ff00cc55;
+      background: rgba(255, 0, 128, 0.08);
+      border: 1px solid rgba(255, 0, 157, 0.4);
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 20px #ff00cc33;
-      backdrop-filter: blur(3px);
+      box-shadow: 0 0 18px rgba(255, 0, 157, 0.25);
     }
 
-    h2 {
-      color: #ff00e6;
-      text-shadow: 0 0 10px #ff00e6aa;
-      font-weight: bold;
-      margin-bottom: 25px;
+    .table-dark {
+      background-color: rgba(25, 0, 36, 0.7) !important;
     }
 
-    table {
-      color: #ffb3ff;
-      background: rgba(255, 255, 255, 0.03) !important;
+    .table th {
+      color: #ff79c6;
+      font-size: 1rem;
+      text-shadow: 0 0 6px rgba(255, 0, 128, 0.7);
     }
 
-    thead tr {
-      background: rgba(255, 0, 255, 0.2);
-      color: #ffbfff;
-      border-bottom: 2px solid #ff00cc;
-    }
-
-    tbody tr {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(2px);
-    }
-
-    tbody tr:hover {
-      background: rgba(255, 0, 150, 0.15);
-      transition: 0.2s;
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 0, 128, 0.08) !important;
     }
 
     .btn-download {
-      background-color: #ff00cc;
+      background-color: #ff0080;
       border: none;
       color: white;
-      font-weight: bold;
-      box-shadow: 0 0 10px #ff00cc88;
+      transition: 0.2s;
+    }
+    .btn-download:hover {
+      background-color: #ff4db3;
+      transform: scale(1.05);
+      box-shadow: 0 0 8px #ff0080;
     }
 
     .btn-revoke {
-      background-color: #ff1744;
+      background-color: #e91e63;
       border: none;
       color: white;
-      font-weight: bold;
-      box-shadow: 0 0 10px #ff174488;
+      transition: 0.2s;
+    }
+    .btn-revoke:hover {
+      background-color: #ff4f8a;
+      transform: scale(1.05);
+      box-shadow: 0 0 8px #e91e63;
     }
 
     .status-valid {
-      color: #00ffcc;
-      font-weight: bold;
-      text-shadow: 0 0 6px #00ffccaa;
+      color: #33ffcc;
+      text-shadow: 0 0 6px #33ffcc;
     }
 
     .status-revoked {
-      color: #ff1744;
-      font-weight: bold;
-      text-shadow: 0 0 6px #ff1744aa;
+      color: #ff4f8a;
+      text-shadow: 0 0 6px #ff4f8a;
     }
 
     .btn-outline-info {
-      border-color: #ff00cc;
-      color: #ff00cc;
-      font-weight: bold;
-      transition: 0.3s;
+      border-color: #ff0080 !important;
+      color: #ff4db3 !important;
+      transition: 0.2s;
+      border-radius: 30px;
     }
-
     .btn-outline-info:hover {
-      background-color: #ff00cc;
-      color: #02040a;
-      transform: scale(1.05);
-      box-shadow: 0 0 15px #ff00cc88;
+      background-color: #ff0080;
+      color: #0d0c1d !important;
+      box-shadow: 0 0 10px #ff0080;
+      transform: scale(1.07);
     }
   </style>
+
 </head>
-
 <body>
-
-  <div class="container">
-    <h2 class="text-center">✨ Admin Dashboard ✨</h2>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4" style="color:#ff4db3; text-shadow:0 0 10px #ff0080;">🔐 Admin Dashboard</h2>
 
     <div class="glass">
 
-      <table class="table table-striped">
+      <table class="table table-dark table-striped">
         <thead>
           <tr>
             <th>User</th>
@@ -111,14 +99,13 @@
             <th>Revoke</th>
           </tr>
         </thead>
-
         <tbody>
           {% for cert in cert_data %}
           <tr>
             <td>{{ cert.username }}</td>
             <td>{{ cert.cert_file or "No Certificate" }}</td>
 
-            <td class="{% if cert.status == 'Valid' %}status-valid{% else %}status-revoked{% endif %}">
+            <td class="{% if cert.status == 'Valid' %}status-valid{% elif cert.status == 'Revoked' %}status-revoked{% endif %}">
               {{ cert.status }}
             </td>
 
@@ -133,7 +120,7 @@
             <td>
               {% if cert.status == 'Valid' %}
                 <a href="{{ url_for('admin_revoke', username=cert.username) }}" class="btn btn-sm btn-revoke"
-                onclick="return confirm('Revoke certificate for {{ cert.username }}?')">Revoke</a>
+                   onclick="return confirm('Revoke certificate for {{ cert.username }}?')">Revoke</a>
               {% else %}
                 <button class="btn btn-sm btn-secondary" disabled>Revoked</button>
               {% endif %}
@@ -141,17 +128,15 @@
           </tr>
           {% endfor %}
         </tbody>
-
       </table>
     </div>
 
     <div class="text-center mt-4">
-      <a href="{{ url_for('home') }}" class="btn btn-outline-info btn-lg px-4 py-2" style="border-radius: 30px;">
-        ← Back to Home
+      <a href="{{ url_for('home') }}" class="btn btn-outline-info btn-lg px-4 py-2">
+        ⬅️ Back to Home
       </a>
     </div>
 
   </div>
-
 </body>
 </html>
