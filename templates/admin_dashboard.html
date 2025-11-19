@@ -1,142 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Admin Login - Mini PKI</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Mini PKI</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg-a: #0b0c10;
-      --bg-b: #16111f;
-      --sun-1: #ff8a00;   /* orange */
-      --sun-2: #ff4ec0;   /* pink */
-      --glass: rgba(255,255,255,0.04);
-      --glass-border: rgba(255,78,192,0.12);
-      --text: #f3f7fb;
-      --muted: #cfc8d7;
-      --accent-glow: 0 10px 40px rgba(255,78,192,0.12), 0 6px 20px rgba(255,138,0,0.06);
+    body {
+      background-color: #02040a;
+      font-family: 'Share Tech Mono', monospace;
+      color: #ff00cc;
+      padding: 40px 0;
     }
-
-    html,body{height:100%; margin:0; font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-    body{
-      background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 100%);
-      color: var(--text);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:36px 18px;
-    }
-
-    /* subtle animated background shards */
-    body::before{
-      content:"";
-      position:fixed; inset:0; z-index:0;
-      background: radial-gradient(800px 400px at 10% 10%, rgba(255,78,192,0.06), transparent 6%),
-                  radial-gradient(700px 300px at 90% 80%, rgba(255,138,0,0.04), transparent 8%);
-      pointer-events:none;
-      mix-blend-mode: screen;
-    }
-
-    .login-wrap{ width:100%; max-width:440px; position:relative; z-index:1; }
 
     .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 34px;
-      box-shadow: var(--accent-glow);
-      backdrop-filter: blur(8px) saturate(1.05);
-      overflow: hidden;
+      background-color: rgba(255, 0, 180, 0.05);
+      border: 1px solid #ff00cc55;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 20px #ff00cc33;
+      backdrop-filter: blur(3px);
     }
 
-    .brand {
-      display:flex; align-items:center; gap:12px; margin-bottom:12px;
-    }
-    .brand .logo {
-      width:46px; height:46px; border-radius:10px;
-      background: linear-gradient(135deg, var(--sun-2), var(--sun-1));
-      box-shadow: 0 6px 18px rgba(255,78,192,0.18);
-      display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff;
-    }
-    .brand h1 { font-size:1.05rem; margin:0; color:var(--text); letter-spacing:0.4px; }
-
-    .login-title{ text-align:center; color:var(--text); font-weight:600; margin-bottom:18px; }
-
-    label.form-label{ color:var(--muted); font-weight:600; display:block; margin-bottom:6px; position:relative; }
-    label.form-label::after{
-      content: attr(data-hint);
-      display:none;
-    }
-    .form-control{
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.04);
-      color: var(--text);
-      border-radius:10px;
-      padding:10px 12px;
-    }
-    .form-control:focus{
-      border-color: rgba(255,78,192,0.9);
-      box-shadow: 0 10px 30px rgba(255,78,192,0.06);
-      outline:none;
+    h2 {
+      color: #ff00e6;
+      text-shadow: 0 0 10px #ff00e6aa;
+      font-weight: bold;
+      margin-bottom: 25px;
     }
 
-    .btn-login{
-      width:100%;
-      background: linear-gradient(90deg, var(--sun-1), var(--sun-2));
-      color:#081017;
-      font-weight:700;
-      border:none;
-      border-radius:12px;
-      padding:11px;
-      box-shadow: 0 14px 40px rgba(255,78,192,0.12);
-      transition: transform .18s ease, box-shadow .18s ease;
+    table {
+      color: #ffb3ff;
+      background: rgba(255, 255, 255, 0.03) !important;
     }
-    .btn-login:hover{ transform: translateY(-4px); box-shadow: 0 24px 60px rgba(255,78,192,0.18); }
 
-    .back-link{ display:block; margin-top:14px; text-align:center; color:var(--muted); text-decoration:none; font-weight:600; }
-    .back-link:hover{ color:var(--text); }
+    thead tr {
+      background: rgba(255, 0, 255, 0.2);
+      color: #ffbfff;
+      border-bottom: 2px solid #ff00cc;
+    }
 
-    .error-msg{ color:#ff8b8b; margin-top:8px; text-align:center; font-weight:600; }
+    tbody tr {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(2px);
+    }
 
-    @media(max-width:520px){
-      .glass{ padding:20px }
+    tbody tr:hover {
+      background: rgba(255, 0, 150, 0.15);
+      transition: 0.2s;
+    }
+
+    .btn-download {
+      background-color: #ff00cc;
+      border: none;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 0 10px #ff00cc88;
+    }
+
+    .btn-revoke {
+      background-color: #ff1744;
+      border: none;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 0 10px #ff174488;
+    }
+
+    .status-valid {
+      color: #00ffcc;
+      font-weight: bold;
+      text-shadow: 0 0 6px #00ffccaa;
+    }
+
+    .status-revoked {
+      color: #ff1744;
+      font-weight: bold;
+      text-shadow: 0 0 6px #ff1744aa;
+    }
+
+    .btn-outline-info {
+      border-color: #ff00cc;
+      color: #ff00cc;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-outline-info:hover {
+      background-color: #ff00cc;
+      color: #02040a;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #ff00cc88;
     }
   </style>
 </head>
+
 <body>
 
-  <div class="login-wrap">
+  <div class="container">
+    <h2 class="text-center">✨ Admin Dashboard ✨</h2>
+
     <div class="glass">
-      <div class="brand">
-        <div class="logo">PKI</div>
-        <h1>Mini PKI — Admin</h1>
-      </div>
 
-      <h3 class="login-title">🔐 Admin Login</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Certificate</th>
+            <th>Status</th>
+            <th>Download</th>
+            <th>Revoke</th>
+          </tr>
+        </thead>
 
-      <form method="POST">
-        <div class="mb-3">
-          <label for="username" class="form-label" data-hint="admin">Username</label>
-          <input type="text" name="username" id="username" class="form-control" required>
-        </div>
+        <tbody>
+          {% for cert in cert_data %}
+          <tr>
+            <td>{{ cert.username }}</td>
+            <td>{{ cert.cert_file or "No Certificate" }}</td>
 
-        <div class="mb-3">
-          <label for="password" class="form-label" data-hint="admin123">Password</label>
-          <input type="password" name="password" id="password" class="form-control" required>
-        </div>
+            <td class="{% if cert.status == 'Valid' %}status-valid{% else %}status-revoked{% endif %}">
+              {{ cert.status }}
+            </td>
 
-        {% if error %}
-        <div class="error-msg">{{ error }}</div>
-        {% endif %}
+            <td>
+              {% if cert.cert_file %}
+                <a href="{{ url_for('download_page', username=cert.username) }}" class="btn btn-sm btn-download">Download</a>
+              {% else %}
+                <span class="text-muted">N/A</span>
+              {% endif %}
+            </td>
 
-        <button type="submit" class="btn-login mt-3">Login</button>
-      </form>
+            <td>
+              {% if cert.status == 'Valid' %}
+                <a href="{{ url_for('admin_revoke', username=cert.username) }}" class="btn btn-sm btn-revoke"
+                onclick="return confirm('Revoke certificate for {{ cert.username }}?')">Revoke</a>
+              {% else %}
+                <button class="btn btn-sm btn-secondary" disabled>Revoked</button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
 
-      <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+      </table>
     </div>
+
+    <div class="text-center mt-4">
+      <a href="{{ url_for('home') }}" class="btn btn-outline-info btn-lg px-4 py-2" style="border-radius: 30px;">
+        ← Back to Home
+      </a>
+    </div>
+
   </div>
 
 </body>
