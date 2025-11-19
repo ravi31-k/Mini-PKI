@@ -15,7 +15,8 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "openai/gpt-3.5-turbo",
+        #"model": "openai/gpt-3.5-turbo",
+        "model": "google/gemini-2.0-flash-001",  # Gemini model name
         "messages": [
             {"role": "system", "content": "You are a helpful assistant with cybersecurity expertise."},
             {"role": "user", "content": prompt}
