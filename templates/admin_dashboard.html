@@ -4,46 +4,89 @@
   <meta charset="UTF-8">
   <title>Admin Dashboard - Mini PKI</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     body {
-      background-color: #1e1e2f;
-      color: #e0f7fa;
+      background-color: #0d0c1d; /* Dark cyber background */
+      color: #ffb7ef; /* Soft neon pink text */
       font-family: 'Courier New', monospace;
     }
+
     .glass {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid #00e0d055;
+      background: rgba(255, 0, 128, 0.08);
+      border: 1px solid rgba(255, 0, 157, 0.4);
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 10px #00e0d033;
+      box-shadow: 0 0 18px rgba(255, 0, 157, 0.25);
     }
-    .btn-revoke {
-      background-color: #e53935;
-      color: white;
+
+    .table-dark {
+      background-color: rgba(25, 0, 36, 0.7) !important;
     }
+
+    .table th {
+      color: #ff79c6;
+      font-size: 1rem;
+      text-shadow: 0 0 6px rgba(255, 0, 128, 0.7);
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 0, 128, 0.08) !important;
+    }
+
     .btn-download {
-      background-color: #00acc1;
+      background-color: #ff0080;
+      border: none;
       color: white;
+      transition: 0.2s;
     }
+    .btn-download:hover {
+      background-color: #ff4db3;
+      transform: scale(1.05);
+      box-shadow: 0 0 8px #ff0080;
+    }
+
+    .btn-revoke {
+      background-color: #e91e63;
+      border: none;
+      color: white;
+      transition: 0.2s;
+    }
+    .btn-revoke:hover {
+      background-color: #ff4f8a;
+      transform: scale(1.05);
+      box-shadow: 0 0 8px #e91e63;
+    }
+
     .status-valid {
-      color: #4caf50;
+      color: #33ffcc;
+      text-shadow: 0 0 6px #33ffcc;
     }
+
     .status-revoked {
-      color: #f44336;
+      color: #ff4f8a;
+      text-shadow: 0 0 6px #ff4f8a;
     }
+
     .btn-outline-info {
-      transition: all 0.3s ease-in-out;
+      border-color: #ff0080 !important;
+      color: #ff4db3 !important;
+      transition: 0.2s;
+      border-radius: 30px;
     }
     .btn-outline-info:hover {
-      background-color: #00e0d0;
-      color: #1e1e2f;
-      transform: scale(1.05);
+      background-color: #ff0080;
+      color: #0d0c1d !important;
+      box-shadow: 0 0 10px #ff0080;
+      transform: scale(1.07);
     }
   </style>
+
 </head>
 <body>
   <div class="container mt-5">
-    <h2 class="text-center mb-4">🔐 Admin Dashboard</h2>
+    <h2 class="text-center mb-4" style="color:#ff4db3; text-shadow:0 0 10px #ff0080;">🔐 Admin Dashboard</h2>
+
     <div class="glass">
 
       <table class="table table-dark table-striped">
@@ -61,7 +104,11 @@
           <tr>
             <td>{{ cert.username }}</td>
             <td>{{ cert.cert_file or "No Certificate" }}</td>
-            <td class="{% if cert.status == 'Valid' %}status-valid{% elif cert.status == 'Revoked' %}status-revoked{% endif %}">{{ cert.status }}</td>
+
+            <td class="{% if cert.status == 'Valid' %}status-valid{% elif cert.status == 'Revoked' %}status-revoked{% endif %}">
+              {{ cert.status }}
+            </td>
+
             <td>
               {% if cert.cert_file %}
                 <a href="{{ url_for('download_page', username=cert.username) }}" class="btn btn-sm btn-download">Download</a>
@@ -69,11 +116,13 @@
                 <span class="text-muted">N/A</span>
               {% endif %}
             </td>
+
             <td>
               {% if cert.status == 'Valid' %}
-              <a href="{{ url_for('admin_revoke', username=cert.username) }}" class="btn btn-sm btn-revoke" onclick="return confirm('Revoke certificate for {{ cert.username }}?')">Revoke</a>
+                <a href="{{ url_for('admin_revoke', username=cert.username) }}" class="btn btn-sm btn-revoke"
+                   onclick="return confirm('Revoke certificate for {{ cert.username }}?')">Revoke</a>
               {% else %}
-              <button class="btn btn-sm btn-secondary" disabled>Revoked</button>
+                <button class="btn btn-sm btn-secondary" disabled>Revoked</button>
               {% endif %}
             </td>
           </tr>
@@ -82,12 +131,12 @@
       </table>
     </div>
 
-    <!-- Back to Home button -->
     <div class="text-center mt-4">
-      <a href="{{ url_for('home') }}" class="btn btn-outline-info btn-lg px-4 py-2" style="border-radius: 30px; font-weight: bold;">
+      <a href="{{ url_for('home') }}" class="btn btn-outline-info btn-lg px-4 py-2">
         ⬅️ Back to Home
       </a>
     </div>
+
   </div>
 </body>
 </html>

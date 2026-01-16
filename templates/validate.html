@@ -6,113 +6,132 @@
   <title>Inspector | Certificate Validator</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
   <style>
     body {
-      background-color: #010a0f;
+      background: linear-gradient(135deg, #2b0f2f, #1a0033);
       font-family: 'Share Tech Mono', monospace;
-      color: #00ffcc;
+      color: #ff66cc;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
+
     .inspector-card {
       max-width: 700px;
       width: 100%;
-      background-color: #000a0f;
-      border: 2px solid #00ffcc;
+      background: rgba(255, 0, 102, 0.08);
+      border: 2px solid #ff3399aa;
       border-radius: 10px;
-      box-shadow: 0 0 20px #00ffcc44;
+      box-shadow: 0 0 25px #ff339955;
       padding: 40px;
-      animation: scanGlow 3s infinite alternate;
+      animation: sunsetGlow 3s infinite alternate;
     }
-    @keyframes scanGlow {
+
+    @keyframes sunsetGlow {
       from {
-        box-shadow: 0 0 10px #00ffcc22;
+        box-shadow: 0 0 10px #ff339922;
       }
       to {
-        box-shadow: 0 0 20px #00ffcc88;
+        box-shadow: 0 0 25px #ff339988;
       }
     }
+
     .inspector-title {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.4rem;
       text-align: center;
-      color: #00ffcc;
+      color: #ff66cc;
       margin-bottom: 30px;
-      border-bottom: 2px dashed #00ffcc88;
+      border-bottom: 2px dashed #ff66cc88;
       padding-bottom: 10px;
+      text-shadow: 0 0 10px #ff3399;
     }
+
     .form-label {
-      color: #00e6b8;
+      color: #ff99dd;
       font-size: 0.95rem;
       letter-spacing: 1px;
     }
+
     .form-control {
-      background-color: #01161e;
-      color: #00ffcc;
-      border: 1px solid #00ffcc88;
+      background-color: rgba(255, 204, 255, 0.07);
+      color: #ff66cc;
+      border: 1px solid #ff66cc88;
       border-radius: 4px;
     }
+
     .form-control::placeholder {
-      color: #00ffcc55;
+      color: #ff66cc55;
     }
+
     .btn-validate {
-      background-color: #00ffcc;
-      color: #000;
+      background: linear-gradient(90deg, #ff3399, #ff0066);
+      color: #fff;
       font-weight: bold;
       border-radius: 4px;
       padding: 10px;
       margin-top: 10px;
+      border: none;
+      transition: 0.3s;
     }
+
     .btn-validate:hover {
-      background-color: #00ccaa;
+      background: linear-gradient(90deg, #ff66cc, #ff3388);
+      transform: scale(1.03);
     }
+
     .btn-back {
       margin-top: 20px;
-      color: #00ffcc;
-      border: 1px solid #00ffcc;
+      color: #ff66cc;
+      border: 1px solid #ff66cc;
       border-radius: 4px;
       background-color: transparent;
+      transition: 0.3s;
     }
+
     .btn-back:hover {
-      background-color: #00ffcc33;
+      background-color: #ff66cc33;
     }
+
     .alert {
-      background-color: #01161e;
-      color: #00ffcc;
-      font-family: 'Share Tech Mono', monospace;
-      border: 1px solid #00ffcc88;
-      border-left: 4px solid #00ffcc;
+      background: rgba(255, 170, 220, 0.05);
+      color: #ff99dd;
+      border: 1px solid #ff66cc88;
+      border-left: 4px solid #ff33aa;
       padding: 15px;
       margin-bottom: 20px;
       white-space: pre-wrap;
       font-size: 0.9rem;
-      animation: logFade 0.6s ease-in-out;
+      animation: alertFade 0.6s ease-in-out;
     }
-    @keyframes logFade {
-      0% {
-        transform: translateY(-10px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
+
+    @keyframes alertFade {
+      from { transform: translateY(-10px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
     }
+
     .alert-success {
-      border-left-color: #00ff99;
+      border-left-color: #ffbbff;
+      color: #ffddff;
     }
+
     .alert-danger {
-      border-left-color: #ff4444;
+      border-left-color: #ff2255;
+      color: #ff8899;
     }
+
     .alert-warning {
       border-left-color: #ffcc00;
+      color: #ffdd88;
     }
   </style>
 </head>
+
 <body>
+
   <div class="container inspector-card">
     <h2 class="inspector-title">[ Inspector Terminal: Certificate Validator ]</h2>
 
@@ -145,8 +164,8 @@
     <div class="text-center">
       <a href="{{ url_for('home') }}" class="btn btn-back">Return to Control Center</a>
     </div>
+
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

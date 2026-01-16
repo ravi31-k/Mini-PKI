@@ -5,45 +5,65 @@
     <title>📥 Download Certificate Files</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
     <style>
         body {
-            background-color: #0a0a0a;
-            color: #00fff7;
+            background: linear-gradient(145deg, #0d0b1a, #2a0f2f);
+            color: #ff2d95;
             font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 8px #ff2d95aa;
         }
+
         .container {
-            max-width: 600px;
+            max-width: 650px;
         }
+
+        h2 {
+            color: #ff2d95;
+            text-shadow: 0 0 15px #ff2d95, 0 0 25px #a259ff;
+        }
+
         .list-group-item {
-            background-color: #121212;
-            color: #00fff7;
-            border: 1px solid #00fff7;
-            margin-bottom: 8px;
+            background: rgba(20, 15, 40, 0.9);
+            border: 1px solid #ff2d95;
+            color: #ff2d95;
+            margin-bottom: 10px;
             transition: 0.3s;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ff2d9544;
         }
+
         .list-group-item:hover {
-            background-color: #00fff7;
-            color: #0a0a0a;
-            transform: scale(1.03);
+            background: #ff914d;
+            color: #1a0f1f;
+            transform: scale(1.05);
+            border-color: #ff914d;
+            box-shadow: 0 0 15px #ff914d;
         }
+
         .btn-custom {
             background-color: transparent;
-            border: 2px solid #00fff7;
-            color: #00fff7;
+            border: 2px solid #a259ff;
+            color: #a259ff;
+            padding: 10px 20px;
+            border-radius: 12px;
             transition: 0.3s;
+            text-shadow: none;
+            box-shadow: 0 0 10px #a259ff55;
         }
+
         .btn-custom:hover {
-            background-color: #00fff7;
-            color: #000;
-        }
-        h2 {
-            text-shadow: 0 0 10px #00fff7;
+            background-color: #a259ff;
+            color: #1a0f1f;
+            box-shadow: 0 0 15px #a259ff;
         }
     </style>
 </head>
+
 <body>
     <div class="container py-5 text-center">
         <h2 class="mb-4">📥 Files for <span style="color: #ffffff;">{{ username }}</span></h2>
+
         <div class="list-group mb-4">
             {% for file in files %}
                 <a href="{{ url_for('download_file', username=username, filename=file) }}" class="list-group-item">
@@ -51,6 +71,7 @@
                 </a>
             {% endfor %}
         </div>
+
         <a href="{{ url_for('home') }}" class="btn btn-custom">⬅️ Back to Home</a>
     </div>
 </body>
